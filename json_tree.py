@@ -30,7 +30,7 @@ class Node:
         self.children: list[Union[Node, Leaf]] = []
         self.parent: Node = None
         self.is_root = is_root or key is None
-        self.size = 0
+        self.size = get_size_as_string_in_bytes(key) if key is not None else 0
         self.expanded = False
 
     def _calculate_size(self):
@@ -44,7 +44,7 @@ class Node:
     def add_child(self, child: Union["Node", "Leaf"]):
         self.children.append(child)
         child.parent = self
-        self._calculate_size()  # Recalculate total size including the new child
+        self.size += child.size
 
 
 def build_tree(json_data: Any) -> Union[Node, Leaf]:
@@ -68,4 +68,5 @@ def build_tree(json_data: Any) -> Union[Node, Leaf]:
         else:
             raise ValueError(f"Unsupported type: {type(data)}")
 
-    return _iterate_json(json_data)
+    root = _iterate_json(json_data)
+    return root
