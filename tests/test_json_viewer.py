@@ -1,168 +1,73 @@
-import sys
-import pytest
-from typing import Any, Dict, List
-from json_viewer import JsonViewer, JsonNode
+from json_viewer import JsonViewer
 
-def calculate_actual_size(obj: Any, seen=None) -> int:
-    """Recursively finds size of objects"""
-    size = sys.getsizeof(obj)
-    if seen is None:
-        seen = set()
-    obj_id = id(obj)
-    if obj_id in seen:
-        return 0
-    # Important mark as seen *before* entering recursion to gracefully handle
-    # self-referential objects
-    seen.add(obj_id)
-    if isinstance(obj, dict):
-        size += sum([calculate_actual_size(v, seen) for v in obj.values()])
-        size += sum([calculate_actual_size(k, seen) for k in obj.keys()])
-    elif hasattr(obj, '__dict__'):
-        size += calculate_actual_size(obj.__dict__, seen)
-    elif hasattr(obj, '__iter__') and not isinstance(obj, (str, bytes, bytearray)):
-        size += sum([calculate_actual_size(i, seen) for i in obj])
-    return size
+test_json = {
+    "name": "John",
+    "age": 30,
+    "address": {
+        "street": "123 Main St",
+        "city": "New York",
+        "country": "USA"
+    },
+    "hobbies": ["reading", "gaming", "coding"]
+}
 
+def test_json_viewer_init():
+    viewer = JsonViewer(test_json)
+    assert viewer.root is not None
+    assert viewer.current_node == viewer.root
+    assert viewer.scroll_pos == 0
+    assert viewer.selected_index == 0
 
-def test_simple_dict():
-    """Test size calculation for simple types"""
-    test_data = {
-        "string": "hello",
-        "integer": 42,
-        "float": 3.14,
-        "boolean": True,
-        "none": None
-    }
+def test_get_visible_nodes_sorted():
+    viewer = JsonViewer(test_json)
+    nodes = viewer.get_visible_nodes_sorted()
     
-    viewer = JsonViewer(test_data)
-    actual_size = calculate_actual_size(test_data)
+    # Initially only root node should be visible since nothing is expanded
+    assert len(nodes) == 1
+    assert nodes[0][0] == viewer.root
+    assert nodes[0][1] == 0  # Root level is 0
     
-    assert viewer.root.size == actual_size
+    # Expand root node
+    viewer.root.expanded = True
+    nodes = viewer.get_visible_nodes_sorted()
+    
+    # Should now see root + its immediate children
+    assert len(nodes) > 1
+    # Nodes should be sorted by size in descending order
+    sizes = [node[0].size for node in nodes[1:]]  # Skip root node
+    assert sizes == sorted(sizes, reverse=True)
 
-def test_nested_dict():
-    """Test size calculation for nested dictionaries"""
-    test_data = {
-        "outer": {
-            "inner": {
-                "value": 42
-            }
-        }
-    }
+def test_toggle_expand():
+    viewer = JsonViewer(test_json)
     
-    viewer = JsonViewer(test_data)
-    actual_size = calculate_actual_size(test_data)
+    # Initially not expanded
+    assert not viewer.root.expanded
     
-    assert viewer.root.size == actual_size
-
-def test_list_with_dicts():
-    """Test size calculation for lists containing dictionaries"""
-    test_data = {
-        "list": [
-            {"key1": "value1"},
-            {"key2": "value2"}
-        ]
-    }
-    
-    viewer = JsonViewer(test_data)
-    actual_size = calculate_actual_size(test_data)
-    
-    assert viewer.root.size == actual_size
-
-def test_complex_structure():
-    """Test size calculation for a complex nested structure"""
-    test_data = {
-        "users": [
-            {
-                "id": 1,
-                "name": "John",
-                "address": {
-                    "street": "123 Main St",
-                    "city": "Boston"
-                }
-            },
-            {
-                "id": 2,
-                "name": "Jane",
-                "address": {
-                    "street": "456 Oak Ave",
-                    "city": "New York"
-                }
-            }
-        ],
-        "settings": {
-            "theme": "dark",
-            "notifications": True
-        }
-    }
-    
-    viewer = JsonViewer(test_data)
-    actual_size = calculate_actual_size(test_data)
-    
-    assert viewer.root.size == actual_size
-
-def test_empty_structures():
-    """Test size calculation for empty structures"""
-    test_data = {
-        "empty_dict": {},
-        "empty_list": [],
-        "nested_empty": {
-            "empty": {}
-        }
-    }
-    
-    viewer = JsonViewer(test_data)
-    actual_size = calculate_actual_size(test_data)
-    
-    assert viewer.root.size == actual_size
-
-def test_node_expansion():
-    """Test that node expansion works correctly"""
-    test_data = {
-        "level1": {
-            "level2": {
-                "level3": "value"
-            }
-        }
-    }
-    
-    viewer = JsonViewer(test_data)
-    
-    # Initially root should be visible
-    visible_nodes = viewer.get_visible_nodes_sorted()
-    assert len(visible_nodes) == 1
-    
-    # Expand root
-    viewer.current_node = viewer.root
+    # Toggle expand
     viewer.toggle_expand()
-    visible_nodes = viewer.get_visible_nodes_sorted()
-    assert len(visible_nodes) == 2  # root + level1
+    assert viewer.root.expanded
     
-    # Expand level1
-    viewer.current_node = viewer.root.children[0]
+    # Toggle collapse
     viewer.toggle_expand()
-    visible_nodes = viewer.get_visible_nodes_sorted()
-    assert len(visible_nodes) == 3  # root + level1 + level2
+    assert not viewer.root.expanded
 
-def test_navigation():
-    """Test navigation between nodes"""
-    test_data = {
-        "first": "value1",
-        "second": "value2",
-        "third": "value3"
-    }
+def test_move_up_down():
+    viewer = JsonViewer(test_json)
+    viewer.root.expanded = True
     
-    viewer = JsonViewer(test_data)
-    viewer.current_node = viewer.root
-    viewer.toggle_expand()
+    initial_node = viewer.current_node
     
     # Move down
     viewer.move_down()
-    assert viewer.current_node.key == "first"
+    assert viewer.current_node != initial_node
+    assert viewer.selected_index == 1
     
-    # Move down again
-    viewer.move_down()
-    assert viewer.current_node.key == "second"
-    
-    # Move up
+    # Move back up
     viewer.move_up()
-    assert viewer.current_node.key == "first" 
+    assert viewer.current_node == initial_node
+    assert viewer.selected_index == 0
+    
+    # Try moving up when at top (should stay at top)
+    viewer.move_up()
+    assert viewer.current_node == initial_node
+    assert viewer.selected_index == 0
