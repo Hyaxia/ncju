@@ -2,17 +2,18 @@ import sys
 from typing import Dict, Any, List, Tuple
 
 class JsonNode:
-    def __init__(self, key: str, value: Any, parent=None):
+    def __init__(self, key: str, value: Any, parent=None, is_root=False):
         self.key = key
         self.value = value
         self.parent = parent
+        self.is_root = is_root
         self.children: List[JsonNode] = []
         self.expanded = False
         self.size = self._calculate_size()
 
     def _calculate_size(self) -> int:
         """Calculate the total size of the node including its key and value."""
-        if self.key != "root":
+        if not self.is_root:
             key_size = sys.getsizeof(self.key)
         else:
             key_size = 0
@@ -38,7 +39,7 @@ class JsonNode:
 
 class JsonViewer:
     def __init__(self, json_data: Dict[str, Any]):
-        self.root = JsonNode("root", json_data)
+        self.root = JsonNode("root", json_data, is_root=True)
         self.current_node = self.root
         self.scroll_pos = 0
         self.selected_index = 0
