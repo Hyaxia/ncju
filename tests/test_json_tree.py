@@ -22,4 +22,14 @@ def test_nested_json():
     with open(nested_json_path) as f:
         simple_json = json.load(f)
     tree = build_tree(simple_json)
-    assert tree.size == 47  # size without indentation and special marks
+    sorted_tree = sorted(tree.children, key=lambda x: x.size, reverse=True)
+    assert sorted_tree[0].key == 'children'
+    assert sorted_tree[0].size == 13
+    assert sorted_tree[1].key == 'city'
+    assert sorted_tree[1].size == 8
+    assert sorted_tree[2].key == 'name'
+    assert sorted_tree[2].size == 4
+    assert sorted_tree[3].key == 'age'
+    assert sorted_tree[3].size == 2
+
+    assert tree.size == 38  # size without indentation and special marks
