@@ -22,6 +22,7 @@ if we take a key-value from ascii then its a different calculation than utf-8 (u
 
 ------------------
 
-
+another thing to take into account, in the file system it takes into account all of the separators, the `"` signs,
+the indentation and such, that I dont neccessarily take into account in my calculation.
 
 
