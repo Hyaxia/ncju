@@ -26,3 +26,43 @@ another thing to take into account, in the file system it takes into account all
 the indentation and such, that I dont neccessarily take into account in my calculation.
 
 
+-----
+
+example:
+
+for the json
+```
+{
+    "name": "John",
+    "age": 30,
+    "city": "New York",
+    "children": [
+        {
+            "name": "Jane",
+            "age": 10
+        }
+    ]
+}
+```
+
+the result is:
+
+```
+NCJU - JSON Usage Viewer
+▼ None: 46.00B
+    name: 8.00B
+    age: 5.00B
+    city: 12.00B
+  ▼ children: 21.00B
+    ▼ None: 13.00B
+        name: 8.00B
+        age: 5.00B
+```
+
+the way the size is calculated is:
+
+- size of key and size of the value are combined
+- indentation between keys and values is ignored
+- `"`, `,` and `{}` marks that are part of the json encoding are ignored
+
+
