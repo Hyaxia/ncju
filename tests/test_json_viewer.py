@@ -128,19 +128,19 @@ def test_node_expansion():
     viewer = JsonViewer(test_data)
     
     # Initially root should be visible
-    visible_nodes = viewer.get_visible_nodes()
+    visible_nodes = viewer.get_visible_nodes_sorted()
     assert len(visible_nodes) == 1
     
     # Expand root
     viewer.current_node = viewer.root
     viewer.toggle_expand()
-    visible_nodes = viewer.get_visible_nodes()
+    visible_nodes = viewer.get_visible_nodes_sorted()
     assert len(visible_nodes) == 2  # root + level1
     
     # Expand level1
     viewer.current_node = viewer.root.children[0]
     viewer.toggle_expand()
-    visible_nodes = viewer.get_visible_nodes()
+    visible_nodes = viewer.get_visible_nodes_sorted()
     assert len(visible_nodes) == 3  # root + level1 + level2
 
 def test_navigation():

@@ -23,7 +23,7 @@ def draw_ui(stdscr, viewer: JsonViewer):
     stdscr.addstr(0, 0, header[:width-1], curses.A_BOLD)
     
     # Draw nodes
-    nodes = viewer.get_visible_nodes()
+    nodes = viewer.get_visible_nodes_sorted()
     visible_nodes = nodes[viewer.scroll_pos:viewer.scroll_pos + height - 2]
     
     for i, (node, level) in enumerate(visible_nodes):

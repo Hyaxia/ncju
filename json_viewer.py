@@ -9,7 +9,7 @@ class JsonViewer:
         self.scroll_pos = 0
         self.selected_index = 0
 
-    def get_visible_nodes(self) -> List[Tuple[Node | Leaf, int]]:
+    def get_visible_nodes_sorted(self) -> List[Tuple[Node | Leaf, int]]:
         def _get_nodes(node: Node | Leaf, level: int) -> List[Tuple[Node | Leaf, int]]:
             nodes = [(node, level)]
             if isinstance(node, Node) and node.expanded:
@@ -28,14 +28,14 @@ class JsonViewer:
             self.current_node.expanded = not self.current_node.expanded
 
     def move_up(self):
-        nodes = self.get_visible_nodes()
+        nodes = self.get_visible_nodes_sorted()
         current_idx = next(i for i, (node, _) in enumerate(nodes) if node == self.current_node)
         if current_idx > 0:
             self.current_node = nodes[current_idx - 1][0]
             self.selected_index = current_idx - 1
 
     def move_down(self):
-        nodes = self.get_visible_nodes()
+        nodes = self.get_visible_nodes_sorted()
         current_idx = next(i for i, (node, _) in enumerate(nodes) if node == self.current_node)
         if current_idx < len(nodes) - 1:
             self.current_node = nodes[current_idx + 1][0]
