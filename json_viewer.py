@@ -7,22 +7,34 @@ class JsonNode:
         self.value = value
         self.parent = parent
         self.children: List[JsonNode] = []
-        self.size = self._calculate_size()
         self.expanded = False
+        self.size = self._calculate_size()
 
     def _calculate_size(self) -> int:
-        key_size = sys.getsizeof(self.key)
+        """Calculate the total size of the node including its key and value."""
+        if self.key != "root":
+            key_size = sys.getsizeof(self.key)
+        else:
+            key_size = 0
         if isinstance(self.value, (str, int, float, bool, type(None))):
             return key_size + sys.getsizeof(self.value)
         elif isinstance(self.value, (list, dict)):
-            # Add up sizes of all children
+            # Add up sizes of all children plus the container itself
+            container_size = sys.getsizeof(self.value)
             children_size = sum(child.size for child in self.children)
-            return key_size + children_size
+            return key_size + container_size + children_size
         return key_size
 
     def add_child(self, child: 'JsonNode'):
         self.children.append(child)
         child.parent = self
+        # Recalculate size after adding a child
+        self.size = self._calculate_size()
+        # Update parent sizes up the tree
+        current = self.parent
+        while current:
+            current.size = current._calculate_size()
+            current = current.parent
 
 class JsonViewer:
     def __init__(self, json_data: Dict[str, Any]):
