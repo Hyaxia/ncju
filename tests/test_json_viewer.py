@@ -71,3 +71,19 @@ def test_move_up_down():
     viewer.move_up()
     assert viewer.current_node == initial_node
     assert viewer.selected_index == 0
+
+def test_list_items():
+    list_json = {
+        "items": [
+            {"name": "Item 1", "value": 100},
+            {"name": "Item 2", "value": 200}
+        ]
+    }
+    viewer = JsonViewer(list_json)
+    viewer.root.expanded = True
+    viewer.root.children[0].expanded = True  # Expand the items list
+    
+    nodes = viewer.get_visible_nodes_sorted()
+    # Verify list items have proper keys
+    assert any(node[0].key == "0" for node in nodes)
+    assert any(node[0].key == "1" for node in nodes)
