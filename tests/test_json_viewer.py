@@ -1,4 +1,5 @@
 from json_viewer import JsonViewer
+from json_tree import Node, Leaf
 
 test_json = {
     "name": "John",
@@ -87,3 +88,60 @@ def test_list_items():
     # Verify list items have proper keys
     assert any(node[0].key == "0" for node in nodes)
     assert any(node[0].key == "1" for node in nodes)
+
+def test_sorting_with_list():
+    # Test data similar to myjsontest.json
+    test_data = {
+        "name": "John",
+        "age": 30,
+        "city": "New York",
+        "children": [
+            {
+                "name": "Jane",
+                "age": 10
+            }
+        ]
+    }
+    
+    viewer = JsonViewer(test_data)
+    
+    # Initially only root should be visible
+    nodes = viewer.get_visible_nodes_sorted()
+    assert len(nodes) == 1
+    root_node, root_level = nodes[0]
+    assert root_level == 0
+    assert root_node.size > 0  # Root should have size
+    
+    # Expand root
+    viewer.root.expanded = True
+    nodes = viewer.get_visible_nodes_sorted()
+    
+    # Check first level sorting (children, city, name, age)
+    first_level_nodes = [(node.key, node.size) for node, level in nodes if level == 1]
+    assert [node[0] for node in first_level_nodes] == ["children", "city", "name", "age"]
+    
+    # Verify sizes are in descending order
+    sizes = [node[1] for node in first_level_nodes]
+    assert sizes == sorted(sizes, reverse=True)
+    
+    # Find children node and expand it
+    children_node = next(node for node, level in nodes if node.key == "children")
+    children_node.expanded = True
+    nodes = viewer.get_visible_nodes_sorted()
+    
+    # Check that list item "0" appears under children
+    children_level = next(level for node, level in nodes if node.key == "children")
+    list_items = [(node.key, level) for node, level in nodes if level == children_level + 1]
+    assert len(list_items) == 1
+    assert list_items[0][0] == "0"  # First item should be "0"
+    
+    # Expand list item "0"
+    list_node = next(node for node, level in nodes if node.key == "0")
+    list_node.expanded = True
+    nodes = viewer.get_visible_nodes_sorted()
+    
+    # Check sorting of items within list item (name, age)
+    list_level = next(level for node, level in nodes if node.key == "0")
+    list_contents = [(node.key, node.size) for node, level in nodes if level == list_level + 1]
+    assert [item[0] for item in list_contents] == ["name", "age"]
+    assert list_contents[0][1] > list_contents[1][1]  # name should be bigger than age
