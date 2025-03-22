@@ -13,8 +13,13 @@ class JsonViewer:
         def _get_nodes(node: Node | Leaf, level: int) -> List[Tuple[Node | Leaf, int]]:
             nodes = [(node, level)]
             if isinstance(node, Node) and node.expanded:
+                # Get all children nodes recursively
+                child_nodes = []
                 for child in node.children:
-                    nodes.extend(_get_nodes(child, level + 1))
+                    child_nodes.extend(_get_nodes(child, level + 1))
+                # Sort children by size before adding to nodes
+                child_nodes.sort(key=lambda x: x[0].size, reverse=True)
+                nodes.extend(child_nodes)
             return nodes
         return _get_nodes(self.root, 0)
 
