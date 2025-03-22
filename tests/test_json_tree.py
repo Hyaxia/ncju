@@ -1,5 +1,5 @@
 from utils import get_size_of_file
-from json_tree import iterate_json
+from json_tree import build_tree
 import json
 
 
@@ -10,7 +10,7 @@ def test_iterate_json():
 
     with open(simple_json_path) as f:
         simple_json = json.load(f)
-    tree = iterate_json(simple_json)
+    tree = build_tree(simple_json)
     assert tree.size == simple_json_size
 
 

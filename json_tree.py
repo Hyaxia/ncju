@@ -27,6 +27,7 @@ class Node:
         self.parent: Node = None
         self.is_root = is_root or key is None
         self.size = self._calculate_size()
+        self.expanded = False
 
     def _calculate_size(self):
         self.size = 0
@@ -45,7 +46,7 @@ class Node:
         self.size += child.size
 
 
-def iterate_json(json_data: Any) -> Node:
+def build_tree(json_data: Any) -> Node:
     def _iterate_json(data: Any, key=None) -> Node | Leaf:
         if isinstance(data, (str, int, float, bool, type(None))):
             return Leaf(data, key)

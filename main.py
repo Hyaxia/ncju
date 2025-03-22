@@ -4,6 +4,8 @@ import sys
 import os
 import argparse
 from json_viewer import JsonViewer
+from json_tree import Node
+
 
 def format_size(size: int) -> str:
     for unit in ['B', 'KB', 'MB', 'GB']:
@@ -34,7 +36,7 @@ def draw_ui(stdscr, viewer: JsonViewer):
             
         # Calculate prefix
         prefix = "  " * level
-        if node.children:
+        if isinstance(node, Node) and node.children:
             prefix += "▶ " if not node.expanded else "▼ "
         else:
             prefix += "  "
