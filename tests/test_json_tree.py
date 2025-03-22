@@ -14,7 +14,7 @@ def test_nested_json():
     tree = build_tree(simple_json)
     sorted_tree = sorted(tree.children, key=lambda x: x.size, reverse=True)
     assert sorted_tree[0].key == "children"
-    assert sorted_tree[0].size == 22
+    assert sorted_tree[0].size == 21
     assert sorted_tree[1].key == "city"
     assert sorted_tree[1].size == 12
     assert sorted_tree[2].key == "name"
@@ -22,7 +22,7 @@ def test_nested_json():
     assert sorted_tree[3].key == "age"
     assert sorted_tree[3].size == 5
 
-    assert tree.size == 47  # size without indentation and special marks
+    assert tree.size == 46  # size without indentation and special marks
 
 
 @pytest.mark.parametrize(
@@ -34,7 +34,7 @@ def test_nested_json():
         ({"key": "value", "key2": "value2", "key3": "value3"}, 28),
         ({"key": "value", "nested": {"key": "value", "number": 55}}, 30),
         ({"key": "value", "nested": {"key": "value", "number": 55, "bool": True}}, 38),
-        ([{"key1": "value1"}, {"key2": "value2"}], 22),
+        ([{"key1": "value1"}, {"key2": "value2"}], 20),
         ({"k": True}, 5),
     ],
     ids=[

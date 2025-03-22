@@ -25,12 +25,15 @@ class Node:
     Node is a dictionary or a list.
     """
 
-    def __init__(self, key, is_root=False):
+    def __init__(self, key, is_root=False, should_calculate_key=True):
         self.key = key
         self.children: list[Union[Node, Leaf]] = []
         self.parent: Node = None
         self.is_root = is_root or key is None
-        self.size = get_size_as_string_in_bytes(key) if key is not None else 0
+        if should_calculate_key:
+            self.size = get_size_as_string_in_bytes(key) if key is not None else 0
+        else:
+            self.size = 0
         self.expanded = False
 
     def _calculate_size(self):
@@ -52,7 +55,7 @@ def build_tree(json_data: Any) -> Union[Node, Leaf]:
         if isinstance(data, (str, int, float, bool, type(None))):
             return Leaf(data, key, should_calculate_key)
         elif isinstance(data, dict):
-            node = Node(key)
+            node = Node(key, should_calculate_key=should_calculate_key)
             for key, value in data.items():
                 child = _iterate_json(
                     value, key, should_calculate_key=True

@@ -82,11 +82,11 @@ def main():
 
             if key == ord("q"):
                 break
-            elif key == curses.KEY_UP:
+            elif key == curses.KEY_UP or key == ord("k"):
                 viewer.move_up()
-            elif key == curses.KEY_DOWN:
+            elif key == curses.KEY_DOWN or key == ord("j"):
                 viewer.move_down()
-            elif key == 10:  # Enter key
+            elif key == 10 or key == ord("l") or key == ord("h"):  # Enter key
                 viewer.toggle_expand()
 
     try:
