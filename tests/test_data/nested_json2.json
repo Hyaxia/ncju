@@ -1,0 +1,21 @@
+{
+    "name": "John",
+    "age": 30,
+    "city": "New York",
+    "items": [
+        {
+            "name": "Jane",
+            "age": 10
+        },
+        {
+            "name2": "John 2",
+            "age": 654654,
+            "another_nested": {
+                "field1": "value1",
+                "field2": "value2",
+                "field3": "value3"
+            },
+            "city2": "New York 2"
+        }
+    ]
+}
