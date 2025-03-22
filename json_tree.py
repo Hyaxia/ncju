@@ -3,6 +3,9 @@ from size_calculator import get_size_as_string_in_bytes
 
 
 class Leaf:
+    """
+    Leaf is either a key-pair value or a value in a list.
+    """
     def __init__(self, value: Any, key=None):
         self.value = value
         self.key = key or ""
@@ -15,6 +18,9 @@ class Leaf:
 
 
 class Node:
+    """
+    Node is a dictionary or a list.
+    """
     def __init__(self, key, is_root=False):
         self.key = key
         self.children: list[Node | Leaf] = []
