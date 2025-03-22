@@ -1,5 +1,5 @@
 import sys
-from typing import Dict, Any, List, Tuple
+from typing import Dict, Any, List, Tuple, Union
 from json_tree import build_tree, Node, Leaf
 
 class JsonViewer:
@@ -9,18 +9,18 @@ class JsonViewer:
         self.scroll_pos = 0
         self.selected_index = 0
 
-    def get_visible_nodes_sorted(self) -> List[Tuple[Node | Leaf, int]]:
-        def _get_nodes(node: Node | Leaf, level: int) -> List[Tuple[Node | Leaf, int]]:
+    def get_visible_nodes_sorted(self) -> List[Tuple[Union[Node, Leaf], int]]:
+        def _get_nodes(node: Union[Node, Leaf], level: int) -> List[Tuple[Union[Node, Leaf], int]]:
             nodes = [(node, level)]
             if isinstance(node, Node) and node.expanded:
+                # Sort children by size before processing them
+                sorted_children = sorted(node.children, key=lambda x: x.size, reverse=True)
                 # Get all children nodes recursively
-                child_nodes = []
-                for child in node.children:
-                    child_nodes.extend(_get_nodes(child, level + 1))
-                # Sort children by size before adding to nodes
-                child_nodes.sort(key=lambda x: x[0].size, reverse=True)
-                nodes.extend(child_nodes)
+                for child in sorted_children:
+                    nodes.extend(_get_nodes(child, level + 1))
             return nodes
+
+        # Get all nodes with proper hierarchy
         return _get_nodes(self.root, 0)
 
     def toggle_expand(self):

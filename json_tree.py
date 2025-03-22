@@ -27,7 +27,7 @@ class Node:
     def __init__(self, key, is_root=False, should_calculate_key=True):
         self.key = key
         self.should_calculate_key = should_calculate_key
-        self.children: list[Node | Leaf] = []
+        self.children: list[Union[Node, Leaf]] = []
         self.parent: Node = None
         self.is_root = is_root or key is None
         self.size = self._calculate_size()
@@ -50,8 +50,8 @@ class Node:
         self.size += child.size
 
 
-def build_tree(json_data: Any) -> Node:
-    def _iterate_json(data: Any, key=None, should_calculate_key=True) -> Node | Leaf:
+def build_tree(json_data: Any) -> Union[Node, Leaf]:
+    def _iterate_json(data: Any, key=None, should_calculate_key=True) -> Union[Node, Leaf]:
         if isinstance(data, (str, int, float, bool, type(None))):
             return Leaf(data, key, should_calculate_key)
         elif isinstance(data, dict):
@@ -70,5 +70,7 @@ def build_tree(json_data: Any) -> Node:
                 )  # list items don't have keys
                 node.add_child(child)
             return node
+        else:
+            raise ValueError(f"Unsupported type: {type(data)}")
 
     return _iterate_json(json_data)
