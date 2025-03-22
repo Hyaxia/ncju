@@ -24,3 +24,12 @@ def test_nested_json():
     tree = build_tree(simple_json)
     assert tree.size == 47  # size without indentation and special marks
 
+NCJU - JSON Usage Viewer
+▼ None: 47.00B
+  ▼ children: 22.00B
+    ▼ 0: 14.00B
+        name: 8.00B
+        age: 5.00B
+    city: 12.00B
+    name: 8.00B
+    age: 5.00B
