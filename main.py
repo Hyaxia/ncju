@@ -83,11 +83,29 @@ def main():
             if key == ord("q"):
                 break
             elif key == curses.KEY_UP or key == ord("k"):
-                viewer.move_up()
+                # Check if we have a count
+                if hasattr(viewer, 'count') and viewer.count > 0:
+                    for _ in range(viewer.count):
+                        viewer.move_up()
+                    viewer.count = 0
+                else:
+                    viewer.move_up()
             elif key == curses.KEY_DOWN or key == ord("j"):
-                viewer.move_down()
+                # Check if we have a count
+                if hasattr(viewer, 'count') and viewer.count > 0:
+                    for _ in range(viewer.count):
+                        viewer.move_down()
+                    viewer.count = 0
+                else:
+                    viewer.move_down()
+            elif key >= ord('0') and key <= ord('9'):
+                # Build up count for next motion
+                if not hasattr(viewer, 'count'):
+                    viewer.count = 0
+                viewer.count = viewer.count * 10 + (key - ord('0'))
             elif key == 10 or key == ord("l") or key == ord("h"):  # Enter key
                 viewer.toggle_expand()
+                viewer.count = 0 if hasattr(viewer, 'count') else 0
 
     try:
         curses.wrapper(main_loop)
