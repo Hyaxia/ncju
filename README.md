@@ -1,4 +1,36 @@
+# NCJU - NCurses JSON Usage Viewer
+
+## Installation
+
+To make the `ncju` command available globally:
+
+1. Clone this repository:
+
+    ```bash
+    git clone https://github.com/yourusername/ncju.git
+    cd ncju
+    ```
+
+2. Create a symbolic link to make the command available globally:
+
+    ```bash
+    sudo ln -s "$(pwd)/ncju" /usr/local/bin/ncju
+    ```
+
+    If you're on macOS and don't have write permissions to `/usr/local/bin`, you can use:
+
+    ```bash
+    ln -s "$(pwd)/ncju" ~/.local/bin/ncju
+    ```
+
+    (Make sure `~/.local/bin` is in your PATH)
+
+3. Update `ncju` with the path to the cloned repo
+
+Now you can use the `ncju` command from anywhere on your system!
+
 this project is inspired by:
+
 ```
 ncdu (NCurses Disk Usage) is a disk utility for Unix systems. Its name refers to its similar purpose to the du utility, but ncdu uses a text-based user interface under the [n]curses programming library.
 ```
@@ -7,7 +39,7 @@ ncju, short for NCurses Json Usage, is a file utility for Unix systems.
 Its purpose is to do that ncdu does for disks, but for json files.
 Basically map all key-value paris and show how much memory each one takes.
 
------------------------
+---
 
 turns out that in mac the files are saved with encoding of us-ascii.
 this means that each character is 8 bytes.
@@ -20,17 +52,17 @@ to utf-8 because ascii is not able to represent that symbol.
 we must take into account the encoding of a file to calculate the size of each key-value.
 if we take a key-value from ascii then its a different calculation than utf-8 (unicode with 8-bit bytes).
 
-------------------
+---
 
 another thing to take into account, in the file system it takes into account all of the separators, the `"` signs,
 the indentation and such, that I dont neccessarily take into account in my calculation.
 
-
------
+---
 
 example:
 
 for the json
+
 ```
 {
     "name": "John",
@@ -61,14 +93,12 @@ NCJU - JSON Usage Viewer
 
 the way the size is calculated is:
 
-- size of key and size of the value are combined
-- indentation between keys and values is ignored
-- `"`, `,` and `{}` marks that are part of the json encoding are ignored
+-   size of key and size of the value are combined
+-   indentation between keys and values is ignored
+-   `"`, `,` and `{}` marks that are part of the json encoding are ignored
 
------------------
-
+---
 
 another thing to check is - how should I calculate the size of each value?
 if for each value I convert it to string and then check the length, how much time will it take
 for large jsons? if its not too much, it might be preferable because its the easiest way.
-
