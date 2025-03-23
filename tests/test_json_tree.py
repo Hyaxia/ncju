@@ -1,6 +1,6 @@
 import pytest
 from utils import get_size_of_file
-from json_tree import build_tree
+from ncju.json_tree import build_tree
 import json
 
 

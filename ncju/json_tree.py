@@ -1,5 +1,5 @@
 from typing import Any, Union
-from size_calculator import get_size_as_string_in_bytes
+from ncju.size_calculator import get_size_as_string_in_bytes
 
 
 class Leaf:

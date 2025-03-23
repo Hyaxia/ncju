@@ -1,6 +1,6 @@
 import sys
 from typing import Dict, Any, List, Tuple, Union
-from json_tree import build_tree, Node, Leaf
+from ncju.json_tree import build_tree, Node, Leaf
 
 
 class JsonViewer:

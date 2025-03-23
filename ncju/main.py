@@ -2,9 +2,9 @@ import curses
 import json
 import sys
 import argparse
-from json_viewer import JsonViewer
-from ui_drawer import draw_ui
-from key_handler import handle_key
+from ncju.json_viewer import JsonViewer
+from ncju.ui_drawer import draw_ui
+from ncju.key_handler import handle_key
 
 
 def main():

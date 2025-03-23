@@ -1,6 +1,6 @@
 import curses
-from json_viewer import JsonViewer
-from json_tree import Node
+from ncju.json_viewer import JsonViewer
+from ncju.json_tree import Node
 
 
 def format_size(size: int) -> str:

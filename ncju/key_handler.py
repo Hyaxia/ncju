@@ -1,5 +1,5 @@
 import curses
-from json_viewer import JsonViewer
+from ncju.json_viewer import JsonViewer
 
 
 def handle_key(key: int, viewer: JsonViewer) -> bool:

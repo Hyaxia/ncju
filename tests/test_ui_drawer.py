@@ -1,6 +1,6 @@
 import pytest
-from ui_drawer import format_size, draw_ui
-from json_viewer import JsonViewer
+from ncju.ui_drawer import format_size, draw_ui
+from ncju.json_viewer import JsonViewer
 import json
 
 
@@ -137,7 +137,9 @@ def test_scrolling_behavior():
             "▶" in line or "▼" in line for line in content[1:-1]
         )  # Exclude header and footer
         # Verify the highlighted line is visible
-        highlighted_line = next(i for i, line in enumerate(content[1:-1]) if "▶" in line or "▼" in line)
+        highlighted_line = next(
+            i for i, line in enumerate(content[1:-1]) if "▶" in line or "▼" in line
+        )
         assert 0 <= highlighted_line < len(content[1:-1])
 
     # Test moving up
@@ -150,7 +152,9 @@ def test_scrolling_behavior():
             "▶" in line or "▼" in line for line in content[1:-1]
         )  # Exclude header and footer
         # Verify the highlighted line is visible
-        highlighted_line = next(i for i, line in enumerate(content[1:-1]) if "▶" in line or "▼" in line)
+        highlighted_line = next(
+            i for i, line in enumerate(content[1:-1]) if "▶" in line or "▼" in line
+        )
         assert 0 <= highlighted_line < len(content[1:-1])
 
     # Test moving to the bottom
@@ -163,7 +167,9 @@ def test_scrolling_behavior():
             "▶" in line or "▼" in line for line in content[1:-1]
         )  # Exclude header and footer
         # Verify the highlighted line is visible
-        highlighted_line = next(i for i, line in enumerate(content[1:-1]) if "▶" in line or "▼" in line)
+        highlighted_line = next(
+            i for i, line in enumerate(content[1:-1]) if "▶" in line or "▼" in line
+        )
         assert 0 <= highlighted_line < len(content[1:-1])
 
     # Test moving to the top
@@ -176,5 +182,7 @@ def test_scrolling_behavior():
             "▶" in line or "▼" in line for line in content[1:-1]
         )  # Exclude header and footer
         # Verify the highlighted line is visible
-        highlighted_line = next(i for i, line in enumerate(content[1:-1]) if "▶" in line or "▼" in line)
+        highlighted_line = next(
+            i for i, line in enumerate(content[1:-1]) if "▶" in line or "▼" in line
+        )
         assert 0 <= highlighted_line < len(content[1:-1])
