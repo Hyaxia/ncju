@@ -60,3 +60,21 @@ NCJU - JSON Usage Viewer
   ▶ 3148: 484.00B
   ▶ 3349: 484.00B
 ```
+---
+The following json:
+```
+{"name": "John","age": 30,"city": "New York","children": [{"name": "Jane","age": 10}]}
+```
+
+becomes:
+```
+NCJU - JSON Usage Viewer
+▼ [ROOT]: 90.00B
+  ▼ children: 29.00B
+    ▼ 0: 27.00B
+        name: 4.00B
+        age: 2.00B
+    city: 8.00B
+    name: 4.00B
+    age: 2.00B
+```
