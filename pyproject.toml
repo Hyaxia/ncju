@@ -10,7 +10,7 @@ dependencies = [
 ]
 
 [build-system]
-requires = ["hatchling"]
+requires = ["hatchling", "pip>=21.3"]
 build-backend = "hatchling.build"
 
 [project.scripts]
