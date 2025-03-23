@@ -65,4 +65,10 @@ the way the size is calculated is:
 - indentation between keys and values is ignored
 - `"`, `,` and `{}` marks that are part of the json encoding are ignored
 
+-----------------
+
+
+another thing to check is - how should I calculate the size of each value?
+if for each value I convert it to string and then check the length, how much time will it take
+for large jsons? if its not too much, it might be preferable because its the easiest way.
 
