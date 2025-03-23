@@ -54,3 +54,27 @@ For additional info refer to `get_size_as_string_in_bytes`.
 ### Size Calculation in ncju
 - Measures only the raw data content
 - Uses UTF-8 encoding consistently for all strings
+
+
+### UI Preview
+```
+NCJU - JSON Usage Viewer
+▼ [ROOT]: 4.50MB
+  ▶ 181: 484.00B
+  ▶ 378: 484.00B
+  ▶ 575: 484.00B
+  ▶ 772: 484.00B
+  ▶ 973: 484.00B
+  ▶ 1170: 484.00B
+  ▶ 1367: 484.00B
+  ▶ 1564: 484.00B
+  ▶ 1765: 484.00B
+  ▶ 1962: 484.00B
+  ▶ 2159: 484.00B
+  ▶ 2356: 484.00B
+  ▶ 2557: 484.00B
+  ▶ 2754: 484.00B
+  ▶ 2951: 484.00B
+  ▶ 3148: 484.00B
+  ▶ 3349: 484.00B
+```
