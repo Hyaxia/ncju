@@ -2,32 +2,9 @@
 
 ## Installation
 
-To make the `ncju` command available globally:
-
-1. Clone this repository:
-
-    ```bash
-    git clone https://github.com/yourusername/ncju.git
-    cd ncju
-    ```
-
-2. Create a symbolic link to make the command available globally:
-
-    ```bash
-    sudo ln -s "$(pwd)/ncju" /usr/local/bin/ncju
-    ```
-
-    If you're on macOS and don't have write permissions to `/usr/local/bin`, you can use:
-
-    ```bash
-    ln -s "$(pwd)/ncju" ~/.local/bin/ncju
-    ```
-
-    (Make sure `~/.local/bin` is in your PATH)
-
-3. Update `ncju` with the path to the cloned repo
-
-Now you can use the `ncju` command from anywhere on your system!
+1. `brew tap Hyaxia/ncju`
+2. `brew install ncju`
+3. enjoy :)
 
 this project is inspired by:
 
