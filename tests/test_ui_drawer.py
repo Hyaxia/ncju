@@ -67,7 +67,7 @@ def test_draw_ui_with_nested_json():
     # Verify footer
     assert "↑↓/kj: Navigate | Enter/h/l: Expand/Collapse | q: Quit" in content[-1]
 
-    assert "▶ None" in content[1]
+    assert "▶ [ROOT]" in content[1]
 
     # expand root node
     viewer.root.expanded = True
@@ -75,7 +75,7 @@ def test_draw_ui_with_nested_json():
     content = mock_stdscr.get_content()
 
     # Verify content
-    assert "▼ None" in content[1]
+    assert "▼ [ROOT]" in content[1]
     assert "children:" in content[2]  # First visible node
     assert "city:" in content[3]  # Second visible node
     assert "name:" in content[4]  # Third visible node
