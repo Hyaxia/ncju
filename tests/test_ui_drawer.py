@@ -103,3 +103,78 @@ def test_draw_ui_with_simple_json():
 
     # Verify footer
     assert "↑↓/kj: Navigate | Enter/h/l: Expand" in content[-1]
+
+
+def test_scrolling_behavior():
+    # Create a large test JSON with many items
+    test_json = {
+        "items": [{"id": str(i), "value": "x" * 100} for i in range(50)]  # 50 items
+    }
+    viewer = JsonViewer(test_json)
+
+    # Create a small window to force scrolling
+    mock_stdscr = MockCursesWindow(
+        10, 80
+    )  # Only 8 lines visible (10 - 2 for header/footer)
+
+    # Expand root node to show all items
+    viewer.root.expanded = True
+    viewer.root.children[0].expanded = True  # Expand the items array
+
+    # Test initial state
+    draw_ui(mock_stdscr, viewer)
+    content = mock_stdscr.get_content()
+    assert "▼ [ROOT]" in content[1]
+    assert "items:" in content[2]
+
+    # Test moving down
+    for _ in range(5):  # Move down 5 times
+        viewer.move_down()
+        draw_ui(mock_stdscr, viewer)
+        content = mock_stdscr.get_content()
+        # Verify the selected item is always visible
+        assert any(
+            "▶" in line or "▼" in line for line in content[1:-1]
+        )  # Exclude header and footer
+        # Verify the highlighted line is visible
+        highlighted_line = next(i for i, line in enumerate(content[1:-1]) if "▶" in line or "▼" in line)
+        assert 0 <= highlighted_line < len(content[1:-1])
+
+    # Test moving up
+    for _ in range(5):  # Move up 5 times
+        viewer.move_up()
+        draw_ui(mock_stdscr, viewer)
+        content = mock_stdscr.get_content()
+        # Verify the selected item is always visible
+        assert any(
+            "▶" in line or "▼" in line for line in content[1:-1]
+        )  # Exclude header and footer
+        # Verify the highlighted line is visible
+        highlighted_line = next(i for i, line in enumerate(content[1:-1]) if "▶" in line or "▼" in line)
+        assert 0 <= highlighted_line < len(content[1:-1])
+
+    # Test moving to the bottom
+    while viewer.selected_index < len(viewer.get_visible_nodes_sorted()) - 1:
+        viewer.move_down()
+        draw_ui(mock_stdscr, viewer)
+        content = mock_stdscr.get_content()
+        # Verify the selected item is always visible
+        assert any(
+            "▶" in line or "▼" in line for line in content[1:-1]
+        )  # Exclude header and footer
+        # Verify the highlighted line is visible
+        highlighted_line = next(i for i, line in enumerate(content[1:-1]) if "▶" in line or "▼" in line)
+        assert 0 <= highlighted_line < len(content[1:-1])
+
+    # Test moving to the top
+    while viewer.selected_index > 0:
+        viewer.move_up()
+        draw_ui(mock_stdscr, viewer)
+        content = mock_stdscr.get_content()
+        # Verify the selected item is always visible
+        assert any(
+            "▶" in line or "▼" in line for line in content[1:-1]
+        )  # Exclude header and footer
+        # Verify the highlighted line is visible
+        highlighted_line = next(i for i, line in enumerate(content[1:-1]) if "▶" in line or "▼" in line)
+        assert 0 <= highlighted_line < len(content[1:-1])

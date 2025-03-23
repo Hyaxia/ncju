@@ -14,6 +14,7 @@ def format_size(size: int) -> str:
 def draw_ui(stdscr, viewer: JsonViewer):
     stdscr.clear()
     height, width = stdscr.getmaxyx()
+    viewer.visible_height = height  # Update visible height for scrolling
 
     # Draw header
     header = "NCJU - JSON Usage Viewer"
