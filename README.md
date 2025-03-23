@@ -40,65 +40,17 @@ Its purpose is to do that ncdu does for disks, but for json files.
 Basically map all key-value paris and show how much memory each one takes.
 
 ---
+## Size Calculation Details
 
-turns out that in mac the files are saved with encoding of us-ascii.
-this means that each character is 8 bytes.
-however when we load the data into python with `with open` we load it as unicode and then
-it varies how many bytes it takes.
+The way the size calculation in `ncju` is made is by encoding the string into a utf-8 string and calculating the size.
+For additional info refer to `get_size_as_string_in_bytes`.
 
-if now I take a simple text file and add a `❤️` to it, on mac it will change the encoding from ascii
-to utf-8 because ascii is not able to represent that symbol.
+### Understanding Size Differences
+- The size shown by `ncju` may differ from the file size on disk because:
+  - JSON files on disk include formatting characters (spaces, newlines)
+  - Text encodings can vary between disk and memory (we use utf-8 for calculation)
+  - `ncju` only measures the actual data content size
 
-we must take into account the encoding of a file to calculate the size of each key-value.
-if we take a key-value from ascii then its a different calculation than utf-8 (unicode with 8-bit bytes).
-
----
-
-another thing to take into account, in the file system it takes into account all of the separators, the `"` signs,
-the indentation and such, that I dont neccessarily take into account in my calculation.
-
----
-
-example:
-
-for the json
-
-```
-{
-    "name": "John",
-    "age": 30,
-    "city": "New York",
-    "children": [
-        {
-            "name": "Jane",
-            "age": 10
-        }
-    ]
-}
-```
-
-the result is:
-
-```
-NCJU - JSON Usage Viewer
-▼ None: 46.00B
-    name: 8.00B
-    age: 5.00B
-    city: 12.00B
-  ▼ children: 21.00B
-    ▼ None: 13.00B
-        name: 8.00B
-        age: 5.00B
-```
-
-the way the size is calculated is:
-
--   size of key and size of the value are combined
--   indentation between keys and values is ignored
--   `"`, `,` and `{}` marks that are part of the json encoding are ignored
-
----
-
-another thing to check is - how should I calculate the size of each value?
-if for each value I convert it to string and then check the length, how much time will it take
-for large jsons? if its not too much, it might be preferable because its the easiest way.
+### Size Calculation in ncju
+- Measures only the raw data content
+- Uses UTF-8 encoding consistently for all strings
