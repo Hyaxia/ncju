@@ -1,5 +1,9 @@
 # NCJU - NCurses JSON Usage Viewer
 
+`ncju`, short for NCurses Json Usage, is a file utility for Unix systems.
+Its purpose is to do what ncdu does for disks, but for json files.
+Basically map all key-value paris and show how much memory each one takes.
+
 ## Installation
 
 1. `brew tap Hyaxia/ncju`
@@ -14,17 +18,6 @@
    - Enter/l/h/Right arrow (→) to expand a node
    - l/h/Left arrow (←) to collapse a node
    - q to quit
-
-
-this project is inspired by:
-
-```
-ncdu (NCurses Disk Usage) is a disk utility for Unix systems. Its name refers to its similar purpose to the du utility, but ncdu uses a text-based user interface under the [n]curses programming library.
-```
-
-`ncju`, short for NCurses Json Usage, is a file utility for Unix systems.
-Its purpose is to do what ncdu does for disks, but for json files.
-Basically map all key-value paris and show how much memory each one takes.
 
 ---
 ## Size Calculation Details
