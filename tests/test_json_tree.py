@@ -14,28 +14,29 @@ def test_nested_json():
     tree = build_tree(simple_json)
     sorted_tree = sorted(tree.children, key=lambda x: x.size, reverse=True)
     assert sorted_tree[0].key == "children"
-    assert sorted_tree[0].size == 21
+    assert sorted_tree[0].size == 29
     assert sorted_tree[1].key == "city"
-    assert sorted_tree[1].size == 12
+    assert sorted_tree[1].size == 8
     assert sorted_tree[2].key == "name"
-    assert sorted_tree[2].size == 8
+    assert sorted_tree[2].size == 4
     assert sorted_tree[3].key == "age"
-    assert sorted_tree[3].size == 5
+    assert sorted_tree[3].size == 2
 
-    assert tree.size == 46  # size without indentation and special marks
+    assert tree.size == 90  # size without indentation and special marks
 
 
 @pytest.mark.parametrize(
     "json_input, expected_size",
     [
-        ({}, 0),
-        ({"key": "value"}, 8),
-        ({"key": "value", "key2": "value2"}, 18),
-        ({"key": "value", "key2": "value2", "key3": "value3"}, 28),
-        ({"key": "value", "nested": {"key": "value", "number": 55}}, 30),
-        ({"key": "value", "nested": {"key": "value", "number": 55, "bool": True}}, 38),
-        ([{"key1": "value1"}, {"key2": "value2"}], 20),
-        ({"k": True}, 5),
+        ({}, 2),
+        ({"key": "value"}, 16),
+        ({"key": "value", "key2": "value2"}, 34),
+        ({"key": "value", "key2": "value2", "key3": "value3"}, 52),
+        ({"key": "value", "nested": {"key": "value", "number": 55}}, 58),
+        ({"key": "value", "nested": {"key": "value", "number": 55, "bool": True}}, 72),
+        ([{"key1": "value1"}, {"key2": "value2"}], 40),
+        ({"k": True}, 11),
+        ({"test_key": "test_value", "another": 5}, 40),
     ],
     ids=[
         "empty_dict",
@@ -46,6 +47,7 @@ def test_nested_json():
         "dict_with_bools",
         "list_of_dicts",
         "dict_with_bool",
+        "dict_with_string_and_int",
     ],
 )
 def test_sizes(json_input: dict, expected_size: int):

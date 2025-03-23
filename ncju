@@ -1,6 +1,6 @@
 #!/bin/bash
 
-SCRIPT_DIR="<path to the cloned repo>"
+SCRIPT_DIR="/Users/maximvovshin/software/ncju/"
 
 # Run the Python script with all arguments passed through
 python "$SCRIPT_DIR/main.py" "$@" 
