@@ -6,6 +6,16 @@
 2. `brew install ncju`
 3. enjoy :)
 
+## Usage:
+
+1. Run `ncju <json-file>` to analyze a JSON file
+2. Navigate using:
+   - Arrow keys (↑/↓) or (k/h) to move up/down
+   - Enter/l/h/Right arrow (→) to expand a node
+   - l/h/Left arrow (←) to collapse a node
+   - q to quit
+
+
 this project is inspired by:
 
 ```
