@@ -65,7 +65,7 @@ def test_draw_ui_with_nested_json():
     assert "NCJU - JSON Usage Viewer" in content[0]
 
     # Verify footer
-    assert "↑↓: Navigate | Enter: Expand/Collapse | q: Quit" in content[-1]
+    assert "↑↓/kj: Navigate | Enter/h/l: Expand/Collapse | q: Quit" in content[-1]
 
     assert "▶ None" in content[1]
 
@@ -102,4 +102,4 @@ def test_draw_ui_with_simple_json():
     assert "NCJU - JSON Usage Viewer" in content[0]
 
     # Verify footer
-    assert "↑↓: Navigate | Enter: Expand/Collapse" in content[-1]
+    assert "↑↓/kj: Navigate | Enter/h/l: Expand" in content[-1]

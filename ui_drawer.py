@@ -50,7 +50,7 @@ def draw_ui(stdscr, viewer: JsonViewer):
             stdscr.addstr(y, 0, line)
 
     # Draw footer
-    footer = "↑↓: Navigate | Enter: Expand/Collapse | q: Quit"
+    footer = "↑↓/kj: Navigate | Enter/h/l: Expand/Collapse | q: Quit"
     stdscr.addstr(height - 1, 0, footer[: width - 1], curses.A_BOLD)
 
     stdscr.refresh()
