@@ -12,8 +12,8 @@ this project is inspired by:
 ncdu (NCurses Disk Usage) is a disk utility for Unix systems. Its name refers to its similar purpose to the du utility, but ncdu uses a text-based user interface under the [n]curses programming library.
 ```
 
-ncju, short for NCurses Json Usage, is a file utility for Unix systems.
-Its purpose is to do that ncdu does for disks, but for json files.
+`ncju`, short for NCurses Json Usage, is a file utility for Unix systems.
+Its purpose is to do what ncdu does for disks, but for json files.
 Basically map all key-value paris and show how much memory each one takes.
 
 ---
@@ -34,6 +34,8 @@ For additional info refer to `get_size_as_string_in_bytes`.
 
 
 ### UI Preview
+The following json - https://microsoftedge.github.io/Demos/json-dummy-data/5MB.json
+becomes:
 ```
 NCJU - JSON Usage Viewer
 ▼ [ROOT]: 4.50MB
