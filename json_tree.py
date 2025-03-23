@@ -72,4 +72,5 @@ def build_tree(json_data: Any) -> Union[Node, Leaf]:
             raise ValueError(f"Unsupported type: {type(data)}")
 
     root = _iterate_json(json_data)
+    root.key = "[ROOT]"
     return root
